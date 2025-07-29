@@ -1,0 +1,93 @@
+# ESP-IDF 构建文件
+build/
+managed_components/
+dependencies.lock
+
+# ESP-IDF 配置文件
+sdkconfig
+sdkconfig.old
+sdkconfig.defaults
+
+# 编译生成的文件
+*.o
+*.a
+*.elf
+*.bin
+*.map
+*.hex
+*.dis
+*.d
+
+# 日志文件
+*.log
+log/
+
+# 临时文件
+*.tmp
+*.temp
+*~
+
+# IDE 和编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统生成的文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python 相关 (如果使用 Python 脚本)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# 备份文件
+*.bak
+*.backup
+
+# 固件文件
+*.img
+*.fw
+
+# 分区表文件 (如果自定义)
+partitions.csv
+
+# 证书和密钥文件
+*.pem
+*.key
+*.crt
+
+# 调试文件
+*.gdb
+*.gdbinit
+
+# 覆盖率文件
+*.gcov
+*.gcda
+*.gcno
+
+# 内存分析文件
+*.heap
+*.mem
+
+# 串口日志
+serial.log
+uart.log
+
+# 网络相关
+*.pcap
+*.cap
+
+# 其他常见忽略文件
+*.orig
+*.rej 
