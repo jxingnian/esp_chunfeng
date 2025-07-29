@@ -1,0 +1,16 @@
+menu "WIFI Configuration"
+    
+config ESP_AP_SSID
+    string "AP SSID"
+    default "chunfeng"
+    help
+        SSID (network name) for the AP to broadcast.
+
+config ESP_AP_PASSWORD
+    string "AP Password"
+    default "chunfeng"
+    help
+        AP password (WPA or WPA2) for the AP to use.
+        
+# Removed ESP_WIFI_CHANNEL and ESP_MAX_STA_CONN
+endmenu
