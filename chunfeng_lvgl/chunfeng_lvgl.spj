@@ -117,8 +117,8 @@
           }
         ],
         "isPage": true,
-        "editor_posx": 560,
-        "editor_posy": -560,
+        "editor_posx": 460,
+        "editor_posy": -460,
         "dont_export": false,
         "locked": false,
         "properties": [
@@ -229,8 +229,8 @@
   "info": {
     "name": "chunfeng_lvgl",
     "depth": 2,
-    "width": 448,
-    "height": 368,
+    "width": 368,
+    "height": 448,
     "rotation": 0,
     "offset_x": 0,
     "offset_y": 0,
