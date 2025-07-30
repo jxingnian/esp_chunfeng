@@ -445,16 +445,16 @@ static const httpd_uri_t reset_retry = {
 // 启动Web服务器
 esp_err_t start_webserver(void)
 {
-    esp_vfs_spiffs_conf_t conf = {
-        .base_path = "/spiffs",
-        .partition_label = NULL,
-        .max_files = 5,
-        .format_if_mount_failed = true
-    };
-    esp_err_t ret = esp_vfs_spiffs_register(&conf);
-    if (ret != ESP_OK) {
-        ESP_LOGE("SPIFFS", "Failed to mount or format filesystem");
-    }
+    // esp_vfs_spiffs_conf_t conf = {
+    //     .base_path = "/spiffs",
+    //     .partition_label = NULL,
+    //     .max_files = 5,
+    //     .format_if_mount_failed = true
+    // };
+    // esp_err_t ret = esp_vfs_spiffs_register(&conf);
+    // if (ret != ESP_OK) {
+    //     ESP_LOGE("SPIFFS", "Failed to mount or format filesystem");
+    // }
 
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     config.lru_purge_enable = true;
