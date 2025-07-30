@@ -2,7 +2,7 @@
  * @Author: xingnian j_xingnian@163.com
  * @Date: 2025-07-29 14:09:31
  * @LastEditors: xingnian j_xingnian@163.com
- * @LastEditTime: 2025-07-30 11:22:32
+ * @LastEditTime: 2025-07-30 21:52:37
  * @FilePath: \esp_chunfeng\main\main.c
  * @Description: 
  * 
@@ -55,7 +55,7 @@ static esp_err_t spiffs_filesystem_init(void)
 void app_main(void)
 {
     esp_log_level_set("*", ESP_LOG_INFO);
-    display_app_init();
+
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -67,7 +67,9 @@ void app_main(void)
     
     ESP_ERROR_CHECK(wifi_init_softap());
 
-    coze_chat_app_init();
+    // display_app_init();
+    
+    // coze_chat_app_init();
 }
 
 
