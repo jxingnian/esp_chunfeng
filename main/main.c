@@ -15,6 +15,7 @@
 #include <esp_log.h>
 #include "wifi_manager.h"
 #include "coze_chat_app.h"
+#include "display_app.h"
 
 static const char *TAG = "ESP ChunFeng";
 
@@ -54,7 +55,7 @@ static esp_err_t spiffs_filesystem_init(void)
 void app_main(void)
 {
     esp_log_level_set("*", ESP_LOG_INFO);
-
+    display_app_init();
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
