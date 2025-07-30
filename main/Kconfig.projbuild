@@ -1,5 +1,7 @@
 menu "ChunFeng Configuration"
 
-rsource "../components/wifi_manage/Kconfig.in" "../components/coze_manage/Kconfig.in"
-        
+rsource "../components/wifi_manage/Kconfig.in" 
+rsource "../components/coze_manage/Kconfig.in" 
+rsource "../components/audio_manage/Kconfig.in"
+
 endmenu

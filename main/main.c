@@ -14,6 +14,7 @@
 #include "esp_err.h"
 #include <esp_log.h>
 #include "wifi_manager.h"
+#include "coze_chat_app.h"
 
 static const char *TAG = "ESP ChunFeng";
 
@@ -65,6 +66,7 @@ void app_main(void)
     
     ESP_ERROR_CHECK(wifi_init_softap());
 
+    coze_chat_app_init();
 }
 
 

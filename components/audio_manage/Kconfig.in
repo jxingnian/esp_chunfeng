@@ -1,0 +1,11 @@
+menu "Audio Board"
+
+choice AUDIO_BOARD
+    prompt "Audio board"
+    default AUDIO_BOARD_WEIXUE_1_8_AMOLED
+config AUDIO_BOARD_WEIXUE_1_8_AMOLED
+    bool "WeiXue-ESP32-S3-1.8-AMOLED"
+
+endchoice
+
+endmenu
