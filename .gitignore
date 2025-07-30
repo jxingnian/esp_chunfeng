@@ -58,9 +58,6 @@ venv.bak/
 *.img
 *.fw
 
-# 分区表文件 (如果自定义)
-partitions.csv
-
 # 证书和密钥文件
 *.pem
 *.key
