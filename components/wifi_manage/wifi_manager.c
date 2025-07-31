@@ -2,7 +2,7 @@
  * @Author: xingnian j_xingnian@163.com
  * @Date: 2025-07-29 14:55:50
  * @LastEditors: xingnian j_xingnian@163.com
- * @LastEditTime: 2025-07-29 17:33:22
+ * @LastEditTime: 2025-07-31 09:23:11
  * @FilePath: \esp_chunfeng\components\wifi_manage\wifi_manager.c
  * @Description: 
  * 
@@ -14,6 +14,7 @@
 const char *TAG = "WIFI MANAGER";
 
 static int s_retry_num = 0;
+static uint8_t s_connection_failed_flag = 0;
 
 // WiFi事件处理函数
 static void wifi_event_handler(void* arg, esp_event_base_t event_base,
@@ -47,45 +48,48 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
                     esp_wifi_connect();
                     s_retry_num++;
                 } else {
-                    ESP_LOGW(TAG, "WiFi连接失败,达到最大重试次数");
-                    // 保存当前状态到NVS
-                    nvs_handle_t nvs_handle;
-                    esp_err_t err = nvs_open("wifi_state", NVS_READWRITE, &nvs_handle);
-                    if (err == ESP_OK) {
-                        nvs_set_u8(nvs_handle, "connection_failed", 1);
-                        nvs_commit(nvs_handle);
-                        nvs_close(nvs_handle);
-                    }
-                    // 停止WiFi
-                    esp_wifi_stop();
-                    // 配置AP参数
-                    wifi_config_t wifi_config = {
-                        .ap = {
-                            .ssid = ESP_AP_SSID,
-                            .ssid_len = strlen(ESP_AP_SSID),
-                            .channel = ESP_WIFI_CHANNEL,
-                            .password = ESP_AP_PASS,
-                            .max_connection = EXAMPLE_MAX_STA_CONN,
-                            .authmode = WIFI_AUTH_WPA_WPA2_PSK,
-                            .pmf_cfg = {
-                                .required = true
+                    if(s_connection_failed_flag == 0){
+                        s_connection_failed_flag = 1;
+                        ESP_LOGW(TAG, "WiFi连接失败,达到最大重试次数");
+                        // 保存当前状态到NVS
+                        nvs_handle_t nvs_handle;
+                        esp_err_t err = nvs_open("wifi_state", NVS_READWRITE, &nvs_handle);
+                        if (err == ESP_OK) {
+                            nvs_set_u8(nvs_handle, "connection_failed", 1);
+                            nvs_commit(nvs_handle);
+                            nvs_close(nvs_handle);
+                        }
+                        // 停止WiFi
+                        esp_wifi_stop();
+                        // 配置AP参数
+                        wifi_config_t wifi_config = {
+                            .ap = {
+                                .ssid = ESP_AP_SSID,
+                                .ssid_len = strlen(ESP_AP_SSID),
+                                .channel = ESP_WIFI_CHANNEL,
+                                .password = ESP_AP_PASS,
+                                .max_connection = EXAMPLE_MAX_STA_CONN,
+                                .authmode = WIFI_AUTH_WPA_WPA2_PSK,
+                                .pmf_cfg = {
+                                    .required = true
+                                },
                             },
-                        },
-                    };
-
-                    // 如果没有设置密码，使用开放认证
-                    if (strlen(ESP_AP_PASS) == 0) {
-                        wifi_config.ap.authmode = WIFI_AUTH_OPEN;
+                        };
+    
+                        // 如果没有设置密码，使用开放认证
+                        if (strlen(ESP_AP_PASS) == 0) {
+                            wifi_config.ap.authmode = WIFI_AUTH_OPEN;
+                        }
+    
+                        // 设置WiFi为APSTA模式
+                        ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
+                        // 设置AP配置
+                        ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
+                        esp_netif_create_default_wifi_ap();  // 创建默认WIFI AP
+                        // 启动WiFi
+                        ESP_ERROR_CHECK(esp_wifi_start());
+                        ESP_ERROR_CHECK(start_webserver());
                     }
-
-                    // 设置WiFi为APSTA模式
-                    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
-                    // 设置AP配置
-                    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
-                    esp_netif_create_default_wifi_ap();  // 创建默认WIFI AP
-                    // 启动WiFi
-                    ESP_ERROR_CHECK(esp_wifi_start());
-                    ESP_ERROR_CHECK(start_webserver());
                 }
                 break;
         }

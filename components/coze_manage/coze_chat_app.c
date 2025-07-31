@@ -21,7 +21,7 @@
 #include "esp_gmf_oal_mem.h"
 
 #include "iot_button.h"
-#include "button_adc.h"
+#include "button_gpio.h"
 #include "esp_coze_chat.h"
 #include "audio_processor.h"
 
@@ -209,13 +209,13 @@ static void audio_data_read_task(void *pv)
         // 等待录音标志位被设置（即按键按下）
         xEventGroupWaitBits(coze_chat.data_evt_group, BUTTON_REC_READING, pdFALSE, pdFALSE, portMAX_DELAY);
         // 读取音频数据
-        // ret = audio_recorder_read_data(data, 640);
+        ret = audio_recorder_read_data(data, 640);
         // 发送音频数据到Coze
         esp_coze_chat_send_audio_data(coze_chat.chat, (char *)data, ret);
 
 #elif defined CONFIG_VOICE_WAKEUP_MODE
         // 语音唤醒模式下读取数据
-        // ret = audio_recorder_read_data(data, 4096 * 3);
+        ret = audio_recorder_read_data(data, 4096 * 3);
         if (coze_chat.wakeuped) {
             // 唤醒状态下才发送数据
             esp_coze_chat_send_audio_data(coze_chat.chat, (char *)data, ret);
@@ -246,7 +246,7 @@ static void audio_pipe_open()
     audio_recorder_open(recorder_event_callback_fn, NULL);
 #endif /* CONFIG_KEY_PRESS_DIALOG_MODE */
     audio_playback_open(); // 打开音频播放
-    audio_playback_run();  // 启动音频播放
+    // audio_playback_run();  // 启动音频播放
 }
 
 /**
@@ -260,18 +260,17 @@ esp_err_t coze_chat_app_init(void)
     coze_chat.wakeuped = false;           // 初始化唤醒状态
 
 #if CONFIG_KEY_PRESS_DIALOG_MODE
-    /** ESP32-S3-Korvo2 板载ADC按键初始化 */
+    /** ESP32-S3-Korvo2开发板按键初始化 */
     button_handle_t btn = NULL;
     const button_config_t btn_cfg = {0};
-    button_adc_config_t btn_adc_cfg = {
-        .unit_id = ADC_UNIT_1,      // ADC单元
-        .adc_channel = 4,           // ADC通道
-        .button_index = 0,          // 按键索引
-        .min = 2310,                // ADC最小值
-        .max = 2510                 // ADC最大值
+    button_gpio_config_t btn_gpio_cfg = {
+        .gpio_num = 0,        // BOOT键通常为GPIO0
+        .active_level = 0,    // 低电平按下
+        .enable_power_save = false,
+        .disable_pull = false
     };
-    // 创建ADC按键设备
-    iot_button_new_adc_device(&btn_cfg, &btn_adc_cfg, &btn);
+    // 创建GPIO按键设备
+    iot_button_new_gpio_device(&btn_cfg, &btn_gpio_cfg, &btn);
     // 注册按下/抬起回调
     ESP_ERROR_CHECK(iot_button_register_cb(btn, BUTTON_PRESS_DOWN, NULL, button_event_cb, NULL));
     ESP_ERROR_CHECK(iot_button_register_cb(btn, BUTTON_PRESS_UP, NULL, button_event_cb, NULL));

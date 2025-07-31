@@ -2,7 +2,7 @@
  * @Author: xingnian j_xingnian@163.com
  * @Date: 2025-07-29 14:09:31
  * @LastEditors: xingnian j_xingnian@163.com
- * @LastEditTime: 2025-07-30 11:22:32
+ * @LastEditTime: 2025-07-31 17:11:18
  * @FilePath: \esp_chunfeng\main\main.c
  * @Description: 
  * 
@@ -41,21 +41,12 @@ static esp_err_t spiffs_filesystem_init(void)
             return ESP_FAIL;
         }
     }
-
-    size_t total = 0, used = 0;
-    ret = esp_spiffs_info(NULL, &total, &used);
-    if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to get SPIFFS partition information (%s)", esp_err_to_name(ret));
-    } else {
-        ESP_LOGI(TAG, "Partition size: total: %d, used: %d", total, used);
-    }
     return ESP_OK;
 }
 
 void app_main(void)
 {
     esp_log_level_set("*", ESP_LOG_INFO);
-    display_app_init();
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -65,7 +56,11 @@ void app_main(void)
 
     spiffs_filesystem_init();
     
+    display_app_init();
+    
     ESP_ERROR_CHECK(wifi_init_softap());
+
+    vTaskDelay(3000 / portTICK_PERIOD_MS);
 
     coze_chat_app_init();
 }

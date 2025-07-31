@@ -117,8 +117,8 @@
           }
         ],
         "isPage": true,
-        "editor_posx": 460,
-        "editor_posy": -460,
+        "editor_posx": 560,
+        "editor_posy": -560,
         "dont_export": false,
         "locked": false,
         "properties": [
@@ -153,7 +153,6 @@
           },
           {
             "nid": 90,
-            "flags": 1048576,
             "strtype": "OBJECT/Flags",
             "InheritedType": 1
           },
@@ -177,7 +176,6 @@
           },
           {
             "nid": 320,
-            "flags": 1048576,
             "strtype": "OBJECT/States",
             "InheritedType": 1
           },
@@ -229,9 +227,9 @@
   "info": {
     "name": "chunfeng_lvgl",
     "depth": 2,
-    "width": 368,
-    "height": 448,
-    "rotation": 0,
+    "width": 448,
+    "height": 368,
+    "rotation": 90,
     "offset_x": 0,
     "offset_y": 0,
     "shape": "RECTANGLE",
@@ -253,7 +251,7 @@
     "uiExportFolderPath": "C:\\XingNian\\ESP32\\esp_chunfeng\\chunfeng_lvgl\\lvgl_ui",
     "projectExportFolderPath": "C:\\XingNian\\ESP32\\esp_chunfeng\\chunfeng_lvgl",
     "custom_variable_prefix": "uic",
-    "backup_cnt": 2,
+    "backup_cnt": 4,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.11",
     "callfuncsexport": "C_FILE",
