@@ -2,7 +2,11 @@
  * @Author: xingnian j_xingnian@163.com
  * @Date: 2025-07-29 14:55:50
  * @LastEditors: xingnian j_xingnian@163.com
+<<<<<<< HEAD
  * @LastEditTime: 2025-07-31 09:23:11
+=======
+ * @LastEditTime: 2025-07-30 22:07:01
+>>>>>>> 3ddbd9d7161f210fc3c4ff1d3d4fab14434fd03b
  * @FilePath: \esp_chunfeng\components\wifi_manage\wifi_manager.c
  * @Description: 
  * 
@@ -14,7 +18,12 @@
 const char *TAG = "WIFI MANAGER";
 
 static int s_retry_num = 0;
+<<<<<<< HEAD
 static uint8_t s_connection_failed_flag = 0;
+=======
+// 新增：标记AP Netif是否已创建
+static bool s_ap_netif_created = false;
+>>>>>>> 3ddbd9d7161f210fc3c4ff1d3d4fab14434fd03b
 
 // WiFi事件处理函数
 static void wifi_event_handler(void* arg, esp_event_base_t event_base,
@@ -106,7 +115,7 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
                 nvs_commit(nvs_handle);
                 nvs_close(nvs_handle);
             }
-            stop_webserver();
+            // stop_webserver();
         }
     }
 }

@@ -229,7 +229,11 @@
     "depth": 2,
     "width": 448,
     "height": 368,
+<<<<<<< HEAD
     "rotation": 90,
+=======
+    "rotation": 0,
+>>>>>>> 3ddbd9d7161f210fc3c4ff1d3d4fab14434fd03b
     "offset_x": 0,
     "offset_y": 0,
     "shape": "RECTANGLE",
